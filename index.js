@@ -6,13 +6,14 @@ const logger = require('./src/libs/logger');
 
 /* configuration */
 const config = {
-  PORT: process.env.PORT
+  PORT: process.env.PORT,
+  DB_HOST: process.env.DB_HOST
 }
 
 const app = express();
 
 /* DATABASE */
-mongoose.connect('mongodb://127.0.0.1:27017/training', {
+mongoose.connect(`mongodb://${config.DB_HOST}:27017/training`, {
   useNewUrlParser: true,
   useUnifiedTopology: true, 
   useCreateIndex: true
