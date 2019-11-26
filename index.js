@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const logger = require('./src/libs/logger');
 const errorHandler = require('./src/libs/errorHandler');
 const userRoutes = require('./src/entities/users/users.routes')
+const proyectsRoutes = require('./src/entities/proyects/proyect.routes')
 
 /* configuration */
 const config = {
@@ -36,6 +37,7 @@ app.use((req,res,next) => logger.saveParams(req,res,next));
 
 /* ROUTES */
 app.use('/users', userRoutes);
+app.use('/proyects', proyectsRoutes);
 
 app.use(errorHandler.processDBerrors);
 app.use(errorHandler.catchResolver);
