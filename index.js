@@ -14,7 +14,7 @@ const config = {
 const app = express();
 
 /* DATABASE */
-mongoose.connect(`mongodb://${config.DB_HOST}:27017/training`, {
+mongoose.connect(`mongodb://${config.DB_HOST}:27017/db_palette`, {
   useNewUrlParser: true,
   useUnifiedTopology: true, 
   useCreateIndex: true
