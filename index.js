@@ -4,6 +4,7 @@ const morgan = require('morgan');
 const mongoose = require('mongoose');
 const logger = require('./src/libs/logger');
 const errorHandler = require('./src/libs/errorHandler');
+const userRoutes = require('./src/entities/users/users.routes')
 
 /* configuration */
 const config = {
@@ -33,7 +34,8 @@ app.use(morgan('{"remote_addr": ":remote-addr", "remote_user": ":remote-user", "
   stream: logger.stream}));
 app.use((req,res,next) => logger.saveParams(req,res,next));
 
-
+/* ROUTES */
+app.use('/users', userRoutes);
 
 app.use(errorHandler.processDBerrors);
 app.use(errorHandler.catchResolver);
