@@ -27,7 +27,7 @@ function catchResolver(err, req, res, next) {
   res.status(err.status).send(err.message);
 }
 
-class CustomError extends Error {
+class BaseError extends Error {
   constructor(message, status, name) {
     super(message);
     this.message = message ;
@@ -40,5 +40,5 @@ module.exports = {
   processError,
   processDBerrors,
   catchResolver,
-  CustomError
+  BaseError
 }
