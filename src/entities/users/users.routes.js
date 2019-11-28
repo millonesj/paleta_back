@@ -9,8 +9,23 @@ const { processError } = require('../../libs/errorHandler');
 const { InvalidAuthentication, UserNoExist, UsernameAlreadyExists, InvalidCode } = require('./users.error');
 
 router.get('/',  processError(async(req, res) => {
-    let users = await userController.getAll();
-    res.json(users);
+  let users = await userController.getAll();
+  res.json(users);
+}));
+
+router.get('/whoami',  auth, processError(async(req, res) => {
+  const payload =  req.user;
+  if (payload) {
+    let userSearched = await userController.getById(payload.id);
+    let user = {
+      id: userSearched._id,
+      name: userSearched.name,
+      email: userSearched.email
+    }
+    res.json({user});
+  } else {
+    res.status(400).json({message: "Invalid token"});
+  }
 }));
 
 router.post('/register', userValidate, processError(async(req, res) => {
@@ -19,8 +34,9 @@ router.post('/register', userValidate, processError(async(req, res) => {
   if (userSearched) throw new UsernameAlreadyExists('User exist');
   const hashPassword = bcrypt.hashSync(req.body.password, 10);
   let newUser = { ...req.body, password: hashPassword };
-  await userController.create(newUser);
-  res.json({message: 'User registerd succesfully.'});
+  const userCreated = await userController.create(newUser);
+  const token = jwt.sign({ id: userCreated._id }, 'SECRET_KEY', { expiresIn: '10h' })
+  res.json({message: 'User registerd succesfully.', token});
 }))
 
 
@@ -60,6 +76,7 @@ router.delete('/:id', auth, processError(async(req, res) => {
 }))
 
 router.post('/login', processError(async (req, res)  => {
+  console.log('LOGIN');
   const username = req.body.username;
   const password = req.body.password;
   const userSearched = await userController.getOne({username});
@@ -72,4 +89,4 @@ router.post('/login', processError(async (req, res)  => {
 
 }));
 
-module.exports = router;
+module.exports = router; 
