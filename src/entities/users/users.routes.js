@@ -76,10 +76,9 @@ router.delete('/:id', auth, processError(async(req, res) => {
 }))
 
 router.post('/login', processError(async (req, res)  => {
-  console.log('LOGIN');
-  const username = req.body.username;
+  const email = req.body.email;
   const password = req.body.password;
-  const userSearched = await userController.getOne({username});
+  const userSearched = await userController.getOne({email});
   
   if (userSearched === null) throw new UserNoExist("user doesn't exist");
   const isAuthenticated = bcrypt.compareSync(password, userSearched.password);
