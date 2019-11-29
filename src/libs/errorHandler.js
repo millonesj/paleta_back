@@ -24,7 +24,7 @@ function processDBerrors(err, req, res, next) {
 }
 
 function catchResolver(err, req, res, next) {
-  res.status(err.status).send(err.message);
+  res.status(err.status).json({message: err.message});
 }
 
 class BaseError extends Error {
