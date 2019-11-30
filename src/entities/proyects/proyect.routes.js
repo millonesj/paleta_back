@@ -3,7 +3,8 @@ const validateAdd = require('./proyects.validate');
 const { processError } = require('../../libs/errorHandler');
 const { ProyectNoExist, OwnerNoExist } = require('./proyects.error');
 let proyectsController = require('./proyects.controller');
-//let usersController = require('../users/users.controller');
+const auth = require('../../libs/authentication');
+
 const proyectRoutes = express.Router()
 
 // LIST
@@ -13,15 +14,46 @@ proyectRoutes.get('/', processError(async (req, res) => {
 }));
 
 // CREATE
-proyectRoutes.post('/',  validateAdd, processError(async(req, res) => {
-   let userSearched = await usersController.getById(req.body.owner);
+proyectRoutes.post('/',  auth, processError(async(req, res) => {
+try {
+    const payload =  req.user;
+    let nameProyect = 'New Proyect'
+  if (payload) {
+    let userId =payload.id;
+    //Generate name
+    const proyects = await proyectsController.getAllWithFilter({owner:userId});
+    const proyectsNews = await proyects.filter(proyect => {
+        if (proyect.name) {
+            if (proyect.name.substring(0,11) == 'New Proyect') return true;
+        }else {
+            return false;
+        }
+    });
 
-   if (userSearched === null) throw new OwnerNoExist(`owner/user doesn't exist`)
-    
-    proyectsController.create(req.body);
-    res.json({message: 'product created successfully'});
+    if (proyectsNews) {
+        let maxProyect = 0;
+        proyectsNews.forEach(proyect => {
+            const numberProyect = Number(proyect.name.substring(12));
+            if(numberProyect > maxProyect) {
+                maxProyect = numberProyect;
+            }
+        });
+        nameProyect = `${nameProyect} ${maxProyect + 1}`
+    }
 
-}))
+    //const NEWPROYECT = {...req.body, owner: userId, name: nameProyect}
+    const newProyect = await proyectsController.create({owner: userId, name: nameProyect});
+    return res.json({message: "product created successfully", data: newProyect});
+  }
+
+  return   res.json({message: "ERROR created successfully"});
+  
+} catch (error) {
+    console.log(error);
+}
+ 
+ }))
+
 
 // UPDATE
 proyectRoutes.put('/:id',  processError(async (req, res) => {
@@ -44,5 +76,7 @@ proyectRoutes.delete('/:id', processError(async(req, res) => {
       if (result)
       res.json({message: "Proyect deleted succesfully",productDeleted: productToDelete});
 }));
+
+
 
 module.exports = proyectRoutes;

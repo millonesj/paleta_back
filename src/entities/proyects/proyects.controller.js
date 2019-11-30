@@ -4,8 +4,8 @@ function create(proyect) {
   return new Proyect(proyect).save();
 }
 
-function getAll() {
-  return Proyect.find({});
+function getAllWithFilter(filter) {
+  return Proyect.find(filter);
 }
 
 function update(id, proyect) {
@@ -27,7 +27,7 @@ function remove(id) {
 
 module.exports = {
   create,
-  getAll,
+  getAllWithFilter,
   getOne,
   getById,
   update,
