@@ -10,8 +10,11 @@ const proyectRoutes = express.Router();
 // LIST
 proyectRoutes.get(
   '/',
+  auth,
   processError(async (req, res) => {
-    let proyects = await proyectsController.getAllWithFilter({});
+    const payload = req.user;
+    let userId = payload.id;
+    let proyects = await proyectsController.getAllWithFilter({ owner: userId });
     res.json(proyects);
   })
 );
