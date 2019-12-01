@@ -14,7 +14,7 @@ const proyectSchema = new mongoose.Schema({
   owner: {
     type: String,
     required: [true, 'The proyect should have an owner']
-  },
+  }
 });
 
 module.exports = mongoose.model('proyect', proyectSchema);
