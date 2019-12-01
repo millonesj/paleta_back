@@ -11,7 +11,7 @@ const proyectRoutes = express.Router();
 proyectRoutes.get(
   '/',
   processError(async (req, res) => {
-    let proyects = await proyectsController.getAll();
+    let proyects = await proyectsController.getAllWithFilter({});
     res.json(proyects);
   })
 );
@@ -55,12 +55,12 @@ proyectRoutes.post(
           name: nameProyect
         });
         return res.json({
-          message: 'product created successfully',
-          data: newProyect
+          message: 'Proyect created successfully',
+          payload: newProyect
         });
       }
 
-      return res.json({ message: 'ERROR created successfully' });
+      return res.json({ message: 'Error' });
     } catch (error) {
       console.log(error);
     }
