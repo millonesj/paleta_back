@@ -8,8 +8,8 @@ const proyectSchema = new mongoose.Schema({
   },
   private: {
     type: Boolean,
-    required: [true, 'User should have a status'],
-    default: true
+    required: [true, 'The proyect should have a status'],
+    default: false
   },
   owner: {
     type: String,
