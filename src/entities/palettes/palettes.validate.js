@@ -1,15 +1,15 @@
 const Joi = require('@hapi/joi');
-const ProyectSchema = Joi.object({
+const PaletteSchema = Joi.object({
   name: Joi.string()
     .min(5)
     .max(100),
   owner: Joi.string().required(),
-  private: Joi.boolean(),
-  palettes: Joi.array()
+  proyectId: Joi.string(),
+  colors: Joi.array()
 });
 
 const validateAdd = (req, res, next) => {
-  const validation = ProyectSchema.validate(req.body);
+  const validation = PaletteSchema.validate(req.body);
   if (validation.error)
     return res.status(403).json({ message: validation.error });
 

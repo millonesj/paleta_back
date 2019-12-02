@@ -11,6 +11,10 @@ const proyectSchema = new mongoose.Schema({
     required: [true, 'The proyect should have a status'],
     default: false
   },
+  palettes: {
+    type: Array,
+    required: [true, 'The proyect should have palettes']
+  },
   owner: {
     type: String,
     required: [true, 'The proyect should have an owner']

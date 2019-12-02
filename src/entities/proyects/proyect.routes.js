@@ -55,7 +55,8 @@ proyectRoutes.post(
         //const NEWPROYECT = {...req.body, owner: userId, name: nameProyect}
         const newProyect = await proyectsController.create({
           owner: userId,
-          name: nameProyect
+          name: nameProyect,
+          palettes: ['default']
         });
         return res.json({
           message: 'Proyect created successfully',
