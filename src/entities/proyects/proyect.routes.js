@@ -15,7 +15,7 @@ proyectRoutes.get(
     const payload = req.user;
     let userId = payload.id;
     let proyects = await proyectsController.getAllWithFilter({ owner: userId });
-    res.json(proyects);
+    res.json({ payload: proyects });
   })
 );
 
