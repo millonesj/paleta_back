@@ -7,6 +7,7 @@ const errorHandler = require('./src/libs/errorHandler');
 const userRoutes = require('./src/entities/users/users.routes');
 const proyectsRoutes = require('./src/entities/proyects/proyect.routes');
 const chatsRoutes = require('./src/entities/chats/chats.routes');
+const palettesRoutes = require('./src/entities/palettes/palettes.routes');
 
 /* configuration */
 const config = {
@@ -46,6 +47,8 @@ app.use((req, res, next) => logger.saveParams(req, res, next));
 app.use('/users', userRoutes);
 app.use('/proyects', proyectsRoutes);
 app.use('/chats', chatsRoutes);
+app.use('/users', userRoutes);
+app.use('/palettes', palettesRoutes);
 
 app.use(errorHandler.processDBerrors);
 app.use(errorHandler.catchResolver);
