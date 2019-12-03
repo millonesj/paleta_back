@@ -18,6 +18,15 @@ proyectRoutes.get(
     res.json({ payload: proyects });
   })
 );
+proyectRoutes.get(
+  '/:id',
+  auth,
+  processError(async (req, res) => {
+    let proyectId = req.params.id;
+    let palettes = await proyectsController.getOne({ _id: proyectId });
+    res.json({ payload: palettes });
+  })
+);
 
 // CREATE
 proyectRoutes.post(
