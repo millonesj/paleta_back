@@ -7,7 +7,7 @@ app.get('/', (req, res) => {
   res.send('<h1>Hello World!</h1>');
 });
 
-const PORT = process.env.PORT;
+const PORT = process.env.CHAT_PORT;
 
 http.listen(PORT, () => {
   console.log(`Listening on *:${PORT}`);
