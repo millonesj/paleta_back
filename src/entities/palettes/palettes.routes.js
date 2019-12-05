@@ -9,12 +9,12 @@ const paletteRoutes = express.Router();
 
 // LIST
 paletteRoutes.get(
-  '/',
+  '/:id',
   auth,
   processError(async (req, res) => {
-    const payload = req.user;
-    let userId = payload.id;
-    let palettes = await palettesController.getAllWithFilter({ owner: userId });
+    let palettes = await palettesController.getAllWithFilter({
+      proyectId: req.params.id
+    });
     res.json({ payload: palettes });
   })
 );
