@@ -29,7 +29,6 @@ router.get(
     if (payload) {
       let userSearched = await userController.getById(payload.id);
       let user = {
-        id: userSearched._id,
         name: userSearched.name,
         email: userSearched.email
       };
