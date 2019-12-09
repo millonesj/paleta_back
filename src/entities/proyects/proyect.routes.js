@@ -24,6 +24,7 @@ proyectRoutes.get(
   processError(async (req, res) => {
     let proyectId = req.params.id;
     let palettes = await proyectsController.getOne({ _id: proyectId });
+    if (palettes === null) throw new ProyectNoExist("Proyect doesn't exist");
     res.json({ payload: palettes });
   })
 );
