@@ -29,7 +29,6 @@ router.get(
     if (payload) {
       let userSearched = await userController.getById(payload.id);
       let user = {
-        id: userSearched._id,
         name: userSearched.name,
         email: userSearched.email
       };
@@ -114,7 +113,7 @@ router.post(
     const password = req.body.password;
     const userSearched = await userController.getOne({ email });
 
-    if (userSearched === null) throw new UserNoExist("user doesn't exist");
+    if (userSearched === null) throw new UserNoExist("Email doesn't exist");
     const isAuthenticated = bcrypt.compareSync(password, userSearched.password);
     if (!isAuthenticated)
       throw new InvalidAuthentication('Username or password  invalid');
