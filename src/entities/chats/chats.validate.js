@@ -8,7 +8,7 @@ const ChatSchema = Joi.object({
 const validateAdd = (req, res, next) => {
   const validation = ChatSchema.validate(req.body);
   if (validation.error)
-    return res.status(403).json({ message: validation.error });
+    return res.status(403).json({ message: validation.error.message });
 
   next();
 };

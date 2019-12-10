@@ -4,6 +4,7 @@ const { processError } = require('../../libs/errorHandler');
 const { ChatNoExist } = require('./chats.error');
 const { ProyectNoExist } = require('../proyects/proyects.error');
 const chatsController = require('./chats.controller');
+const proyectController = require('../proyects/proyects.controller');
 const auth = require('../../libs/authentication');
 
 const chatRoutes = express.Router();
@@ -13,7 +14,8 @@ chatRoutes.get(
   '/:ProyectId',
   auth,
   processError(async (req, res) => {
-    let chats = await proyectsController.getAllWithFilter({ ProyectId });
+    const proyectId = req.params.ProyectId;
+    let chats = await chatsController.getAllWithFilter({ proyectId });
     res.json({ payload: chats });
   })
 );
@@ -26,9 +28,9 @@ chatRoutes.post(
     const payload = req.user;
     let userId = payload.id;
     const proyectId = req.body.proyectId;
-
-    let proyectSearched = await chatsController.getAllWithFilter({ proyectId });
-    if (proyectSearched) throw new ProyectNoExist(`Proyect  doesn't exist`);
+    let proyectSearched = await proyectController.getById(proyectId);
+    if (proyectSearched == null)
+      throw new ProyectNoExist(`Proyect  doesn't exist`);
     const chatSaved = await chatsController.create({ ...req.body, userId });
     res.json({ message: 'message saved' });
   })
