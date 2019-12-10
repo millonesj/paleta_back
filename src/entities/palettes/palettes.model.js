@@ -8,8 +8,7 @@ const paletteSchema = new mongoose.Schema({
   },
   proyectId: {
     type: String,
-    required: [true, 'The palette should have a proyect'],
-    default: ''
+    required: [true, 'The palette should have a proyect']
   },
   owner: {
     type: String,
@@ -17,7 +16,49 @@ const paletteSchema = new mongoose.Schema({
   },
   colors: {
     type: Array,
-    required: [true, 'The palette should have colors']
+    required: [true, 'The palette should have colors'],
+    default: [
+      {
+        color: '#0000FF',
+        compId: 'toolBar',
+        elementName: 'background'
+      },
+      {
+        color: '#FFFFFF',
+        compId: 'toolBar',
+        elementName: 'title and menu'
+      },
+      {
+        color: '#AAAAAA',
+        compId: 'paletteList',
+        elementName: 'background'
+      },
+      {
+        color: '#FFFFFF',
+        compId: 'paletteList',
+        elementName: 'title'
+      },
+      {
+        color: '#FFFFFF',
+        compId: 'paletteList',
+        elementName: 'paletteTitleTxt'
+      },
+      {
+        color: '#0000FF',
+        compId: 'paletteList',
+        elementName: 'paletteTitleBg'
+      },
+      {
+        color: '#FFFFFF',
+        compId: 'paletteList',
+        elementName: 'paletteSubTitleTxt'
+      },
+      {
+        color: '#AAAAAA',
+        compId: 'paletteList',
+        elementName: 'paletteSubTitleBg'
+      }
+    ]
   }
 });
 
