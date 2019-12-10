@@ -3,6 +3,7 @@ const validateAdd = require('./proyects.validate');
 const { processError } = require('../../libs/errorHandler');
 const { ProyectNoExist, OwnerNoExist } = require('./proyects.error');
 let proyectsController = require('./proyects.controller');
+const palettesController = require('../palettes/palettes.controller');
 const auth = require('../../libs/authentication');
 
 const proyectRoutes = express.Router();
@@ -18,13 +19,26 @@ proyectRoutes.get(
     res.json({ payload: proyects });
   })
 );
+
 proyectRoutes.get(
   '/:id',
   auth,
   processError(async (req, res) => {
     let proyectId = req.params.id;
-    let palettes = await proyectsController.getOne({ _id: proyectId });
-    if (palettes === null) throw new ProyectNoExist("Proyect doesn't exist");
+    let proyect = await proyectsController.getOne({ _id: proyectId });
+    if (proyect === null) throw new ProyectNoExist("Proyect doesn't exist");
+    res.json({ payload: proyect });
+  })
+);
+
+proyectRoutes.get(
+  '/:id/palettes',
+  auth,
+  processError(async (req, res) => {
+    let proyectId = req.params.id;
+    let palettes = await palettesController.getAllWithFilter({
+      proyectId: proyectId
+    });
     res.json({ payload: palettes });
   })
 );
@@ -66,7 +80,7 @@ proyectRoutes.post(
         const newProyect = await proyectsController.create({
           owner: userId,
           name: nameProyect,
-          palettes: ['default']
+          palettes: ['default', 'New Proyect 1']
         });
         return res.json({
           message: 'Proyect created successfully',

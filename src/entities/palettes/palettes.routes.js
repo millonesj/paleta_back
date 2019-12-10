@@ -21,7 +21,7 @@ paletteRoutes.get(
 
 // CREATE
 paletteRoutes.post(
-  '/',
+  '/:proyectId',
   auth,
   processError(async (req, res) => {
     try {
@@ -31,8 +31,17 @@ paletteRoutes.post(
         let userId = payload.id;
         //Generate name
         const palettes = await palettesController.getAllWithFilter({
-          owner: userId
+          owner: userId,
+          proyectId: req.params.proyectId
         });
+        if (palettes.length == 0) {
+          await palettesController.create({
+            owner: userId,
+            proyectId: req.params.proyectId,
+            name: 'default'
+          });
+          console.log('deafult palette created');
+        }
         const palettesNews = await palettes.filter(palette => {
           if (palette.name) {
             if (palette.name.substring(0, 11) == 'New palette') return true;
@@ -40,7 +49,6 @@ paletteRoutes.post(
             return false;
           }
         });
-
         if (palettesNews) {
           let maxpalette = 0;
           palettesNews.forEach(palette => {
@@ -49,13 +57,14 @@ paletteRoutes.post(
               maxpalette = numberpalette;
             }
           });
-          namepalette = `${namepalette} ${maxpalette + 1}`;
+          namePalette = `${namePalette} ${maxpalette + 1}`;
         }
 
         //const NEWpalette = {...req.body, owner: userId, name: namepalette}
         const newpalette = await palettesController.create({
           owner: userId,
-          name: namepalette
+          proyectId: req.params.proyectId,
+          name: namePalette
         });
         return res.json({
           message: 'palette created successfully',
@@ -74,13 +83,13 @@ paletteRoutes.post(
 paletteRoutes.put(
   '/:id',
   processError(async (req, res) => {
-    let idpalette = req.params.id;
-    let productSearch = await palettesController.getById(idpalette);
+    let idPalette = req.params.id;
+    let paletteSearch = await palettesController.getById(idPalette);
 
-    if (productSearch === null) throw new paletteNoExist(`palette no exist`);
+    if (paletteSearch === null) throw new PaletteNoExist(`Palette no exist`);
 
-    let result = await palettesController.update(idpalette, { ...req.body });
-    if (result) res.json({ message: 'product updated succesfully' });
+    let result = await palettesController.update(idPalette, { ...req.body });
+    if (result) res.json({ message: 'Palette updated succesfully' });
   })
 );
 
@@ -88,14 +97,14 @@ paletteRoutes.put(
 paletteRoutes.delete(
   '/:id',
   processError(async (req, res) => {
-    let productToDelete = await palettesController.getById(req.params.id);
-    if (productToDelete === null) throw new paletteNoExist(`palette no exist `);
-    console.log(productToDelete);
+    let paletteToDelete = await palettesController.getById(req.params.id);
+    if (paletteToDelete === null) throw new PaletteNoExist(`palette no exist `);
+    console.log(paletteToDelete);
     let result = await palettesController.remove(req.params.id);
     if (result)
       res.json({
-        message: 'palette deleted succesfully',
-        productDeleted: productToDelete
+        message: 'Palette deleted succesfully',
+        paletteDeleted: paletteToDelete
       });
   })
 );
