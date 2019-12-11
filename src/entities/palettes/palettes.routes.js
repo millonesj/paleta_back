@@ -29,47 +29,60 @@ paletteRoutes.post(
       let namePalette = 'New Palette';
       if (payload) {
         let userId = payload.id;
-        //Generate name
-        const palettes = await palettesController.getAllWithFilter({
-          owner: userId,
-          proyectId: req.params.proyectId
-        });
-        if (palettes.length == 0) {
-          await palettesController.create({
+        if (req.body.name == null) {
+          //Generate name
+          const palettes = await palettesController.getAllWithFilter({
             owner: userId,
-            proyectId: req.params.proyectId,
-            name: 'default'
+            proyectId: req.params.proyectId
           });
-          console.log('deafult palette created');
-        }
-        const palettesNews = await palettes.filter(palette => {
-          if (palette.name) {
-            if (palette.name.substring(0, 11) == 'New palette') return true;
-          } else {
-            return false;
+          if (palettes.length == 0) {
+            await palettesController.create({
+              owner: userId,
+              proyectId: req.params.proyectId,
+              name: 'default'
+            });
+            console.log('deafult palette created');
           }
-        });
-        if (palettesNews) {
-          let maxpalette = 0;
-          palettesNews.forEach(palette => {
-            const numberpalette = Number(palette.name.substring(12));
-            if (numberpalette > maxpalette) {
-              maxpalette = numberpalette;
+          const palettesNews = await palettes.filter(palette => {
+            if (palette.name) {
+              if (palette.name.substring(0, 11) == 'New palette') return true;
+            } else {
+              return false;
             }
           });
-          namePalette = `${namePalette} ${maxpalette + 1}`;
-        }
+          if (palettesNews) {
+            let maxpalette = 0;
+            palettesNews.forEach(palette => {
+              const numberpalette = Number(palette.name.substring(12));
+              if (numberpalette > maxpalette) {
+                maxpalette = numberpalette;
+              }
+            });
+            namePalette = `${namePalette} ${maxpalette + 1}`;
+          }
 
-        //const NEWpalette = {...req.body, owner: userId, name: namepalette}
-        const newpalette = await palettesController.create({
-          owner: userId,
-          proyectId: req.params.proyectId,
-          name: namePalette
-        });
-        return res.json({
-          message: 'palette created successfully',
-          payload: newpalette
-        });
+          //const NEWpalette = {...req.body, owner: userId, name: namepalette}
+          const newpalette = await palettesController.create({
+            owner: userId,
+            proyectId: req.params.proyectId,
+            name: namePalette
+          });
+          return res.json({
+            message: 'palette created successfully',
+            payload: newpalette
+          });
+        } else {
+          const newpalette = await palettesController.create({
+            owner: userId,
+            proyectId: req.params.proyectId,
+            name: req.body.name,
+            colors: req.body.colors
+          });
+          return res.json({
+            message: 'palette created successfully',
+            payload: newpalette
+          });
+        }
       }
 
       return res.json({ message: 'Error' });

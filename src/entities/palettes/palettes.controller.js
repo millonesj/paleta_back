@@ -25,7 +25,7 @@ function getById(id) {
   return palette;
 }
 function remove(id) {
-  return Palette.findOneAndDelete(id);
+  return Palette.findOneAndDelete({ _id: id });
 }
 
 module.exports = {
