@@ -1,8 +1,9 @@
 const passport = require('passport');
 const authJWT = require('passport-jwt');
+require('dotenv').config();
 
 const jwtOptions = {
-  secretOrKey: 'SECRET_KEY',
+  secretOrKey: process.env.SECRET_KEY,
   jwtFromRequest: authJWT.ExtractJwt.fromAuthHeaderAsBearerToken()
 };
 

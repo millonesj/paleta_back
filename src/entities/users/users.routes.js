@@ -12,6 +12,7 @@ const {
   UsernameAlreadyExists,
   InvalidCode
 } = require('./users.error');
+require('dotenv').config();
 
 router.get(
   '/',
@@ -49,7 +50,7 @@ router.post(
     const hashPassword = bcrypt.hashSync(req.body.password, 10);
     let newUser = { ...req.body, password: hashPassword };
     const userCreated = await userController.create(newUser);
-    const token = jwt.sign({ id: userCreated._id }, 'SECRET_KEY', {
+    const token = jwt.sign({ id: userCreated._id }, process.env.SECRET_KEY, {
       expiresIn: '10h'
     });
     res.json({ message: 'User registerd succesfully.', token });
@@ -69,7 +70,7 @@ router.post(
     let userSearched = await userController.getOne({ email });
     if (userSearched) throw new UsernameAlreadyExists('User exist');
     const userCreated = await userController.create(newUser);
-    const token = jwt.sign({ id: userCreated._id }, 'SECRET_KEY', {
+    const token = jwt.sign({ id: userCreated._id }, process.env.SECRET_KEY, {
       expiresIn: '10h'
     });
     res.json({ token });
@@ -117,7 +118,7 @@ router.post(
     const isAuthenticated = bcrypt.compareSync(password, userSearched.password);
     if (!isAuthenticated)
       throw new InvalidAuthentication('Username or password  invalid');
-    const token = jwt.sign({ id: userSearched.id }, 'SECRET_KEY', {
+    const token = jwt.sign({ id: userSearched.id }, process.env.SECRET_KEY, {
       expiresIn: '10h'
     });
     res.json({ token });
