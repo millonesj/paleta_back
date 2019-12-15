@@ -1,9 +1,9 @@
-const { BaseError } = require('../../libs/errorHandler');
+const { BaseError } = require('../helpers/errorHandler');
 
-class PaletteNoExist extends BaseError {
+class ProyectNoExist extends BaseError {
   constructor(message) {
-    let _message = message || "Palette doesn't exist.";
-    super(_message, '404', 'PaletteNoExist');
+    let _message = message || "Proyect doesn't exist.";
+    super(_message, '404', 'ProyectNoExist');
   }
 }
 
@@ -15,6 +15,6 @@ class OwnerNoExist extends BaseError {
 }
 
 module.exports = {
-  PaletteNoExist,
+  ProyectNoExist,
   OwnerNoExist
 };

@@ -1,9 +1,9 @@
 const express = require('express');
-const validateAdd = require('./palettes.validate');
-const { processError } = require('../../libs/errorHandler');
-const { PaletteNoExist, OwnerNoExist } = require('./palettes.error');
-let palettesController = require('./palettes.controller');
-const auth = require('../../libs/authentication');
+const validateAdd = require('../libs/palettes.validate');
+const { processError } = require('../helpers/errorHandler');
+const { PaletteNoExist, OwnerNoExist } = require('../libs/palettes.error');
+let palettesController = require('../controllers/palettes.controller');
+const auth = require('../helpers/authentication');
 
 const paletteRoutes = express.Router();
 

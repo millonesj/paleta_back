@@ -1,4 +1,4 @@
-const Palette = require('./palettes.model');
+const Palette = require('../models/palettes.model');
 
 function create(palette) {
   return new Palette(palette).save();

@@ -2,12 +2,12 @@ require('dotenv').config();
 const express = require('express');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
-const logger = require('./src/libs/logger');
-const errorHandler = require('./src/libs/errorHandler');
-const userRoutes = require('./src/entities/users/users.routes');
-const proyectsRoutes = require('./src/entities/proyects/proyect.routes');
-const chatsRoutes = require('./src/entities/chats/chats.routes');
-const palettesRoutes = require('./src/entities/palettes/palettes.routes');
+const logger = require('./src/helpers/logger');
+const errorHandler = require('./src/helpers/errorHandler');
+const userRoutes = require('./src/routes/users.routes');
+const proyectsRoutes = require('./src/routes/proyect.routes');
+const chatsRoutes = require('./src/routes/chats.routes');
+const palettesRoutes = require('./src/routes/palettes.routes');
 
 /* configuration */
 const config = {

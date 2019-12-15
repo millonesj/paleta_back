@@ -1,4 +1,4 @@
-const { BaseError } = require('../../libs/errorHandler');
+const { BaseError } = require('../helpers/errorHandler');
 
 class ChatNoExist extends BaseError {
   constructor(message) {

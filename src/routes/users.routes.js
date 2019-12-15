@@ -1,17 +1,17 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const userValidate = require('./users.validate');
-const auth = require('../../libs/authentication');
-const userController = require('./users.controller');
+const userValidate = require('../libs/users.validate');
+const auth = require('../helpers/authentication');
+const userController = require('../controllers/users.controller');
 const router = express.Router();
-const { processError } = require('../../libs/errorHandler');
+const { processError } = require('../helpers/errorHandler');
 const {
   InvalidAuthentication,
   UserNoExist,
   UsernameAlreadyExists,
   InvalidCode
-} = require('./users.error');
+} = require('../libs/users.error');
 require('dotenv').config();
 
 router.get(
