@@ -1,11 +1,11 @@
 const express = require('express');
-const validateAdd = require('./chats.validate');
-const { processError } = require('../../libs/errorHandler');
-const { ChatNoExist } = require('./chats.error');
-const { ProyectNoExist } = require('../proyects/proyects.error');
-const chatsController = require('./chats.controller');
-const proyectController = require('../proyects/proyects.controller');
-const auth = require('../../libs/authentication');
+const validateAdd = require('../libs/chats.validate');
+const { processError } = require('../helpers/errorHandler');
+const { ChatNoExist } = require('../libs/chats.error');
+const { ProyectNoExist } = require('../libs/proyects.error');
+const chatsController = require('../controllers/chats.controller');
+const proyectController = require('../controllers/proyects.controller');
+const auth = require('../helpers/authentication');
 
 const chatRoutes = express.Router();
 

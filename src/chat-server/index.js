@@ -2,11 +2,10 @@ require('dotenv').config();
 const app = require('express')();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
-const jwt = require('jsonwebtoken');
 const { saveChat } = require('./chat.controller');
 const auth = require('./libs/authentication');
 app.get('/', (req, res) => {
-  res.send('<h1>Hello World!</h1>');
+  res.send('<h1>Hello Chat Server!</h1>');
 });
 
 const PORT = process.env.CHAT_PORT;
@@ -27,5 +26,13 @@ io.use(auth).on('connection', function(socket) {
     };
     saveChat(token, chat);
     io.emit('chat message', msg);
+  });
+});
+
+app.use((error, req, res, next) => {
+  res.json({
+    error: {
+      message: error.message
+    }
   });
 });

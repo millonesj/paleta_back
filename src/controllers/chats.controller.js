@@ -1,4 +1,4 @@
-const Chat = require('./chats.model');
+const Chat = require('../models/chats.model');
 
 function create(chat) {
   return new Chat(chat).save();

@@ -1,4 +1,4 @@
-const Proyect = require('./proyects.model');
+const Proyect = require('../models/proyects.model');
 
 function create(proyect) {
   return new Proyect(proyect).save();

@@ -1,10 +1,10 @@
 const express = require('express');
-const validateAdd = require('./proyects.validate');
-const { processError } = require('../../libs/errorHandler');
-const { ProyectNoExist, OwnerNoExist } = require('./proyects.error');
-let proyectsController = require('./proyects.controller');
-const palettesController = require('../palettes/palettes.controller');
-const auth = require('../../libs/authentication');
+const validateAdd = require('../libs/proyects.validate');
+const { processError } = require('../helpers/errorHandler');
+const { ProyectNoExist, OwnerNoExist } = require('../libs/proyects.error');
+let proyectsController = require('../controllers/proyects.controller');
+const palettesController = require('../controllers/palettes.controller');
+const auth = require('../helpers/authentication');
 
 const proyectRoutes = express.Router();
 
